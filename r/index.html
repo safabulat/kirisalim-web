@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="darkreader-lock">
+<meta name="theme-color" content="#0F766E">
+<title>Kırışalım — yeni şifre</title>
+<!-- Şifre sıfırlama e-postasının bağlantısı buraya gelir (#access_token…&type=recovery).
+     Telefonda uygulama yüklüyse iOS/Android bu adresi zaten uygulamada açar; açmazsa buradan seçilir.
+     Bilgisayarda doğrudan web uygulamasına geçer. -->
+<style>
+  :root { --bg:#F5F7F6; --fg:#14201E; --mu:#5B6B68; --card:#fff; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#0E1413; --fg:#E6EEEC; --mu:#9AACA8; --card:#18211F; } }
+  body { margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center; background:var(--bg);
+         color:var(--fg); font:16px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding:16px; box-sizing:border-box; }
+  .card { background:var(--card); border-radius:22px; padding:28px 24px; max-width:380px; width:100%; text-align:center; }
+  img { width:72px; height:72px; border-radius:18px; }
+  h1 { font-size:22px; margin:14px 0 6px; } p { color:var(--mu); margin:0 0 22px; }
+  a.btn { display:block; padding:14px; border-radius:14px; text-decoration:none; font-weight:600; margin-top:10px; }
+  a.primary { background:#0F766E; color:#fff; } a.secondary { color:#0F766E; border:1.5px solid #0F766E; }
+  @media (prefers-color-scheme: dark) { a.secondary { color:#7FD3C9; border-color:#7FD3C9; } }
+</style>
+</head>
+<body>
+<div class="card">
+  <img src="../icons/Icon-192.png" alt="">
+  <h1 id="h">Yeni şifre</h1>
+  <p id="p">Şifreni uygulamada mı, tarayıcıda mı değiştirmek istersin?</p>
+  <a class="btn primary" id="app" href="#">Uygulamada aç</a>
+  <a class="btn secondary" id="web" href="#">Tarayıcıda devam et</a>
+</div>
+<script>
+  var hash = location.hash || '';
+  var web = '../' + hash;                         // /kirisalim-site/app/#access_token…
+  var app = 'kirisalim://reset' + hash;
+  document.getElementById('web').href = web;
+  document.getElementById('app').href = app;
+  if (!/^tr\b/i.test(navigator.language || '')) {
+    document.documentElement.lang = 'en';
+    document.getElementById('h').textContent = 'New password';
+    document.getElementById('p').textContent = 'Change your password in the app or in the browser?';
+    document.getElementById('app').textContent = 'Open in the app';
+    document.getElementById('web').textContent = 'Continue in the browser';
+  }
+  var mobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  if (!mobile) location.replace(web);             // bilgisayarda seçim yok
+</script>
+</body>
+</html>
