@@ -36,12 +36,21 @@
   var app = 'kirisalim://reset' + hash;
   document.getElementById('web').href = web;
   document.getElementById('app').href = app;
-  if (!/^tr\b/i.test(navigator.language || '')) {
+  // Kayıt onayı da buraya döner (#…type=signup) — 2026-11-18
+  var signup = /(^|[#&])type=signup\b/.test(hash);
+  var en = !/^tr\b/i.test(navigator.language || '');
+  if (en) {
     document.documentElement.lang = 'en';
-    document.getElementById('h').textContent = 'New password';
-    document.getElementById('p').textContent = 'Change your password in the app or in the browser?';
     document.getElementById('app').textContent = 'Open in the app';
     document.getElementById('web').textContent = 'Continue in the browser';
+  }
+  if (signup) {
+    document.title = en ? 'Kırışalım — email confirmed' : 'Kırışalım — e-posta onaylandı';
+    document.getElementById('h').textContent = en ? 'Email confirmed' : 'E-postan onaylandı';
+    document.getElementById('p').textContent = en ? 'Continue in the app or in the browser?' : 'Uygulamada mı, tarayıcıda mı devam etmek istersin?';
+  } else if (en) {
+    document.getElementById('h').textContent = 'New password';
+    document.getElementById('p').textContent = 'Change your password in the app or in the browser?';
   }
   var mobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
   if (!mobile) location.replace(web);             // bilgisayarda seçim yok
